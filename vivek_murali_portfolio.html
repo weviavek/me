@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivek Murali — Senior Flutter Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --bg2: #0d1117;
+    --bg3: #111827;
+    --card: #0f1520;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --accent: #00E5FF;
+    --accent2: #7C3AED;
+    --accent3: #10B981;
+    --text: #F1F5F9;
+    --muted: #64748B;
+    --muted2: #94A3B8;
+    --gradient: linear-gradient(135deg, #00E5FF, #7C3AED);
+    --glow: 0 0 40px rgba(0,229,255,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS BG ── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6,8,16,0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--gradient);
+    color: #000 !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    font-weight: 600 !important;
+    transition: opacity 0.2s !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+  .nav-cta:hover { opacity: 0.85; color: #000 !important; }
+
+  /* ── HAMBURGER ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted2); border-radius: 2px; transition: 0.3s; }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--accent);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+
+  .hero-h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-h1 .line { display: block; }
+  .hero-h1 .accent-line {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    color: var(--muted2);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 480px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: #000;
+    padding: 0.75rem 1.8rem;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.3); }
+
+  .btn-outline {
+    border: 1px solid var(--border2);
+    color: var(--text);
+    padding: 0.75rem 1.8rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); background: rgba(0,229,255,0.05); }
+
+  /* ── HERO VISUAL ── */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.25s ease both;
+  }
+  .phone-mockup {
+    width: 240px;
+    height: 480px;
+    border: 2px solid var(--border2);
+    border-radius: 36px;
+    background: var(--card);
+    padding: 1.5rem 1rem;
+    position: relative;
+    box-shadow: var(--glow), 0 0 80px rgba(124,58,237,0.1);
+    overflow: hidden;
+  }
+  .phone-notch {
+    width: 60px; height: 12px;
+    background: #000;
+    border-radius: 8px;
+    margin: 0 auto 1.2rem;
+  }
+  .phone-flutter-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 40px);
+    gap: 0;
+  }
+  .flutter-icon-wrap {
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    animation: flutter-spin 6s linear infinite;
+  }
+  @keyframes flutter-spin {
+    0%   { filter: drop-shadow(0 0 8px rgba(0,229,255,0.6)); }
+    50%  { filter: drop-shadow(0 0 20px rgba(124,58,237,0.8)); }
+    100% { filter: drop-shadow(0 0 8px rgba(0,229,255,0.6)); }
+  }
+  .phone-rings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 34px;
+  }
+  .phone-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,229,255,0.08);
+    animation: ringExpand 3s ease-out infinite;
+  }
+  .phone-ring:nth-child(1) { width: 100px; height: 100px; top: 50%; left: 50%; margin: -50px 0 0 -50px; animation-delay: 0s; }
+  .phone-ring:nth-child(2) { width: 160px; height: 160px; top: 50%; left: 50%; margin: -80px 0 0 -80px; animation-delay: 1s; }
+  .phone-ring:nth-child(3) { width: 220px; height: 220px; top: 50%; left: 50%; margin: -110px 0 0 -110px; animation-delay: 2s; }
+  @keyframes ringExpand {
+    0%   { opacity: 0.5; transform: scale(0.6); }
+    100% { opacity: 0; transform: scale(1.3); }
+  }
+  .phone-lang-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 0.5rem;
+    margin-top: 0.8rem;
+  }
+  .phone-lang-tag {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.6rem;
+    color: rgba(0,229,255,0.7);
+    background: rgba(0,229,255,0.06);
+    border: 1px solid rgba(0,229,255,0.15);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .phone-name-label {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .phone-role-label {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 2px;
+  }
+  .phone-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 0.8rem;
+    justify-content: center;
+  }
+  .phone-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0.3; }
+  .phone-dot.active { opacity: 1; animation: pulse 1.5s infinite; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Raleway', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ── SECTION COMMON ── */
+  .section-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .section-label {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 3rem;
+  }
+  .divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.4rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    border-color: rgba(0,229,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,229,255,0.08);
+  }
+  .skill-card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+  }
+  .skill-card-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 0.6rem;
+  }
+  .skill-tag {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.68rem;
+    color: var(--muted2);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .skill-card:hover .skill-tag {
+    color: var(--accent);
+    border-color: rgba(0,229,255,0.2);
+    background: rgba(0,229,255,0.05);
+  }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-item.hidden { opacity: 0; transform: translateX(-20px); }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot {
+    position: absolute;
+    left: -2.35rem;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,255,0.5);
+  }
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+  .timeline-company {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .timeline-period {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 2px 10px;
+    border-radius: 100px;
+  }
+  .timeline-role {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+  }
+
+  .app-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .app-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+  }
+  .app-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .app-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .app-badge {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.68rem;
+    background: rgba(16,185,129,0.1);
+    color: var(--accent3);
+    border: 1px solid rgba(16,185,129,0.2);
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+  .app-bullets {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .app-bullets li {
+    font-size: 0.83rem;
+    color: var(--muted2);
+    padding-left: 1rem;
+    position: relative;
+    font-weight: 300;
+  }
+  .app-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 0;
+  }
+  .project-card:hover { border-color: transparent; transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,229,255,0.12); }
+  .project-card:hover::before { opacity: 0.06; }
+  .project-card > * { position: relative; z-index: 1; }
+  .project-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .project-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .project-desc { font-size: 0.83rem; color: var(--muted2); font-weight: 300; margin-bottom: 1rem; }
+  .project-link {
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'Fira Code', monospace;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.5rem; }
+
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .contact-text .section-title { margin-bottom: 1rem; }
+  .contact-desc { color: var(--muted2); font-weight: 300; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--muted2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: rgba(0,229,255,0.3); color: var(--text); background: rgba(0,229,255,0.04); }
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .contact-link:hover .contact-link-icon {
+    background: rgba(0,229,255,0.15);
+    border-color: rgba(0,229,255,0.3);
+  }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    transition: border-color 0.3s;
+  }
+  .edu-card:hover { border-color: rgba(124,58,237,0.3); }
+  .edu-degree { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .edu-school { font-size: 0.83rem; color: var(--muted2); font-weight: 300; }
+  .edu-year { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--accent2); margin-top: 0.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 300;
+  }
+  footer span {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 500;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes barGrow {
+    from { width: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .phone-mockup { animation: float 4s ease-in-out infinite; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      background: rgba(6,8,16,0.97);
+      backdrop-filter: blur(16px);
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      z-index: 99;
+    }
+    .nav-links.open a { font-size: 1.4rem; }
+    .hamburger { display: flex; z-index: 101; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+    .hero-visual { order: -1; }
+    .phone-mockup { width: 180px; height: 360px; }
+    .hero-actions { justify-content: center; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .section-wrap { padding: 4rem 1.2rem; }
+    nav { padding: 1rem 1.2rem; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .stat-num { font-size: 1.5rem; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── CURSOR GLOW ── */
+  #cursor-glow {
+    position: fixed;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: left 0.1s, top 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VM</div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">Available for opportunities</div>
+      <h1 class="hero-h1">
+        <span class="line">Vivek</span>
+        <span class="line accent-line">Murali</span>
+      </h1>
+      <p class="hero-desc">Senior Flutter Developer crafting production-grade mobile apps for <strong>millions of users</strong> across Android, iOS & Windows. 4+ years of shipping at scale.</p>
+      <div class="hero-actions">
+        <a href="#experience" class="btn-primary">View Work ↓</a>
+        <a href="/cdn-cgi/l/email-protection#fd8a98d38b949c8b9896bd9a909c9491d39e9290" class="btn-outline">📧 Get in Touch</a>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item"><div class="stat-num">4+</div><div class="stat-label">Years exp.</div></div>
+        <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Pub packages</div></div>
+        <div class="stat-item"><div class="stat-num">3+</div><div class="stat-label">Apps shipped</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-notch"></div>
+        <div class="phone-rings">
+          <div class="phone-ring"></div>
+          <div class="phone-ring"></div>
+          <div class="phone-ring"></div>
+        </div>
+        <div class="phone-flutter-center">
+          <div class="flutter-icon-wrap">
+            <svg width="72" height="72" viewBox="0 0 66 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M37.5 0L0 37.5L12.5 50L62.5 0H37.5Z" fill="url(#g1)"/>
+              <path d="M37.5 30L12.5 55L25 67.5L37.5 55L62.5 30H37.5Z" fill="url(#g2)"/>
+              <path d="M25 67.5L37.5 80L62.5 55L50 42.5L37.5 55L25 67.5Z" fill="url(#g3)" opacity="0.85"/>
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="62.5" y2="50" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#00E5FF"/>
+                  <stop offset="100%" stop-color="#7C3AED"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="12.5" y1="30" x2="62.5" y2="67.5" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#7C3AED"/>
+                  <stop offset="100%" stop-color="#00E5FF"/>
+                </linearGradient>
+                <linearGradient id="g3" x1="25" y1="55" x2="62.5" y2="80" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#00E5FF"/>
+                  <stop offset="100%" stop-color="#7C3AED"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="phone-name-label">Vivek Murali</div>
+          <div class="phone-role-label">Senior Flutter Developer</div>
+          <div class="phone-lang-tags">
+            <span class="phone-lang-tag">Flutter</span>
+            <span class="phone-lang-tag">Dart</span>
+            <span class="phone-lang-tag">BLoC</span>
+            <span class="phone-lang-tag">Firebase</span>
+            <span class="phone-lang-tag">Android</span>
+            <span class="phone-lang-tag">iOS</span>
+          </div>
+          <div class="phone-dots" style="margin-top:1.2rem">
+            <div class="phone-dot active"></div>
+            <div class="phone-dot"></div>
+            <div class="phone-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label reveal">Core Expertise</div>
+    <h2 class="section-title reveal">What I Build With</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">📱</div>
+        <div class="skill-card-title">Mobile Development</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Flutter</span><span class="skill-tag">Dart</span><span class="skill-tag">Android</span><span class="skill-tag">iOS</span><span class="skill-tag">Windows</span><span class="skill-tag">Kotlin</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">⚡</div>
+        <div class="skill-card-title">State Management</div>
+        <div class="skill-tags">
+          <span class="skill-tag">BLoC</span><span class="skill-tag">Provider</span><span class="skill-tag">GetX</span><span class="skill-tag">Clean Arch</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🔗</div>
+        <div class="skill-card-title">Backend & APIs</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Firebase</span><span class="skill-tag">REST</span><span class="skill-tag">WebSockets</span><span class="skill-tag">GraphQL</span><span class="skill-tag">Node.js</span><span class="skill-tag">Socket.IO</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🔐</div>
+        <div class="skill-card-title">Auth & Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JWT</span><span class="skill-tag">Cookie Auth</span><span class="skill-tag">DRM Playback</span><span class="skill-tag">WhatsApp Webhook</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">💰</div>
+        <div class="skill-card-title">Monetisation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Google AdMob</span><span class="skill-tag">In-App Purchases</span><span class="skill-tag">Subscriptions</span><span class="skill-tag">Receipt Validation</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🎨</div>
+        <div class="skill-card-title">UI & Animations</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Lottie</span><span class="skill-tag">Custom Paint</span><span class="skill-tag">Figma</span><span class="skill-tag">Responsive</span><span class="skill-tag">Adaptive</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">📊</div>
+        <div class="skill-card-title">Monitoring</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Crashlytics</span><span class="skill-tag">UXCam</span><span class="skill-tag">MS Clarity</span><span class="skill-tag">DevTools</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-icon">🗺️</div>
+        <div class="skill-card-title">Maps & Native</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Google Maps</span><span class="skill-tag">Home Widgets</span><span class="skill-tag">App Intents</span><span class="skill-tag">ML Kit</span><span class="skill-tag">MRZ Scan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label reveal">Career</div>
+    <h2 class="section-title reveal">Work Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-company">Flipshope</span>
+          <span class="timeline-period">Apr 2025 – Present</span>
+        </div>
+        <div class="timeline-role">Senior Application Developer · Jaipur, IN</div>
+        <div class="app-cards">
+          <div class="app-card">
+            <div class="app-card-header">
+              <span class="app-name">Flipshope — Price Tracking App</span>
+              <span class="app-badge">40L+ Users</span>
+            </div>
+            <ul class="app-bullets">
+              <li>Led end-to-end performance optimization for 4M+ active users</li>
+              <li>Architected WhatsApp-based auth via Webhooks + WebSocket connections</li>
+              <li>Built bidirectional JS bridges for seamless WebView integrations</li>
+              <li>Engineered native Android Home Widget support using Kotlin</li>
+              <li>Fully refactored legacy codebase to scalable clean architecture</li>
+            </ul>
+          </div>
+          <div class="app-card">
+            <div class="app-card-header">
+              <span class="app-name">TBD — The Best Deals App</span>
+              <span class="app-badge">150K+ Users</span>
+            </div>
+            <ul class="app-bullets">
+              <li>Real-time deal delivery via WebSocket (Socket.IO) for live updates</li>
+              <li>Hybrid sync system using FCM + WebSocket + REST — zero data loss</li>
+              <li>Privacy-first push notifications via FCM — zero personal data collected</li>
+              <li>Optimized for Android, iOS & Windows with AppFlyer deep linking</li>
+            </ul>
+          </div>
+          <div class="app-card">
+            <div class="app-card-header">
+              <span class="app-name">Hyyzo — Cashback & Rewards Platform</span>
+              <span class="app-badge">4L+ Users</span>
+            </div>
+            <ul class="app-bullets">
+              <li>Re-architected auth layer with middleware-style intercept system</li>
+              <li>Integrated GraphQL for efficient, over-fetch-free data access</li>
+              <li>Firebase Realtime Database for live cashback synchronization</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-company">Niche Designz</span>
+          <span class="timeline-period">Jul 2024 – Feb 2025</span>
+        </div>
+        <div class="timeline-role">Flutter Developer · Bangalore, IN</div>
+        <div class="app-cards">
+          <div class="app-card">
+            <div class="app-card-header">
+              <span class="app-name">Skill Karnataka — E-learning Platform</span>
+              <span class="app-badge">Government-backed</span>
+            </div>
+            <ul class="app-bullets">
+              <li>Led full mobile dev lifecycle from inception to Play Store deployment</li>
+              <li>Implemented DRM content protection preventing screen recording & scrubbing</li>
+              <li>Built local certificate storage for offline secure content access</li>
+            </ul>
+          </div>
+          <div class="app-card">
+            <div class="app-card-header">
+              <span class="app-name">Richy Life Club</span>
+              <span class="app-badge">Play Store & App Store</span>
+            </div>
+            <ul class="app-bullets">
+              <li>Instagram-style slide gesture navigation with complex animations</li>
+              <li>Passport Scanner using Google ML Kit for accurate MRZ extraction</li>
+              <li>Fully responsive UI optimized for mobile and tablet</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-company">Aggrotech Firm</span>
+          <span class="timeline-period">Feb 2024 – Jul 2024</span>
+        </div>
+        <div class="timeline-role">Flutter Developer · Panthanamthitta, IN</div>
+        <div class="app-card">
+          <div class="app-card-header">
+            <span class="app-name">Aggrotech — Jackfruit Industry App</span>
+            <span class="app-badge">Play Store & App Store</span>
+          </div>
+          <ul class="app-bullets">
+            <li>Google Maps + geolocation for location-based product discovery & live shipment tracking</li>
+            <li>Offline data management for usability in low-connectivity rural areas</li>
+            <li>Network layer optimized for graceful variable connectivity handling</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-company">Vajra India Software</span>
+          <span class="timeline-period">May 2022 – Feb 2024</span>
+        </div>
+        <div class="timeline-role">Flutter Developer · Alapuzha, IN</div>
+        <ul class="app-bullets">
+          <li>Built and maintained multiple Flutter applications across entertainment and software domains</li>
+          <li>Mastered state management (Provider, GetX), REST API integration, and store deployments</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- OPEN SOURCE / PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label reveal">Open Source</div>
+    <h2 class="section-title reveal">Published Packages & Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-icon">📦</div>
+        <div class="project-title">file_scan</div>
+        <div class="project-desc">Solves Android 12+ file sharing restrictions enabling secure cross-app file exchange within app-owned directories. Widely adopted for document, image & file sharing.</div>
+        <a href="https://pub.dev/packages/file_scan" target="_blank" class="project-link">pub.dev · Jan 2025 ↗</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-icon">🎬</div>
+        <div class="project-title">list_all_videos</div>
+        <div class="project-desc">Flutter package for efficient local video listing and thumbnail generation on Android & iOS. Uses native Kotlin bridging for optimized thumbnail performance on large libraries.</div>
+        <a href="https://pub.dev/packages/list_all_videos" target="_blank" class="project-link">pub.dev · Nov 2023 ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-wrap">
+    <div class="section-label reveal">Academic</div>
+    <h2 class="section-title reveal">Education</h2>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <div class="edu-degree">B.E. Computer Science</div>
+        <div class="edu-school">Cape Institute of Technology<br>Anna University · Thiruvelveli, IN</div>
+        <div class="edu-year">Graduated May 2022</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Diploma in Computer Science</div>
+        <div class="edu-school">Cape Polytechnic College<br>Kanyakumari, IN</div>
+        <div class="edu-year">Completed Mar 2018</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-grid">
+      <div class="contact-text">
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal">Let's build something great</h2>
+        <p class="contact-desc reveal">Open to senior Flutter roles, consulting engagements, and interesting open-source collaborations.</p>
+        <div class="contact-links reveal">
+          <a href="mailto:we.viavek@gmail.com" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">Email</div>
+              <div style="font-size:0.78rem;color:var(--muted)">we.viavek@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://wa.me/919361251119" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">WhatsApp</div>
+              <div style="font-size:0.78rem;color:var(--muted)">+91 93612 51119</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/weviavek/" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">LinkedIn</div>
+              <div style="font-size:0.78rem;color:var(--muted)">linkedin.com/in/weviavek</div>
+            </div>
+          </a>
+          <a href="https://github.com/weviavek" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">GitHub</div>
+              <div style="font-size:0.78rem;color:var(--muted)">github.com/weviavek</div>
+            </div>
+          </a>
+          <a href="https://medium.com/@we.viavek" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">Medium</div>
+              <div style="font-size:0.78rem;color:var(--muted)">medium.com/@we.viavek</div>
+            </div>
+          </a>
+          <a href="https://www.instagram.com/we.vek/" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:0.83rem;color:var(--text)">Instagram</div>
+              <div style="font-size:0.78rem;color:var(--muted)">@we.vek</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;display:flex;flex-direction:column;gap:1rem;">
+        <div style="font-family:'Raleway',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.3rem;">Quick Info</div>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;">
+          <div style="display:flex;justify-content:space-between;padding-bottom:0.7rem;border-bottom:1px solid var(--border);font-size:0.85rem;">
+            <span style="color:var(--muted)">Location</span><span>India</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-bottom:0.7rem;border-bottom:1px solid var(--border);font-size:0.85rem;">
+            <span style="color:var(--muted)">Experience</span><span>4+ Years</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-bottom:0.7rem;border-bottom:1px solid var(--border);font-size:0.85rem;">
+            <span style="color:var(--muted)">Primary Stack</span><span>Flutter / Dart</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding-bottom:0.7rem;border-bottom:1px solid var(--border);font-size:0.85rem;">
+            <span style="color:var(--muted)">Platforms</span><span>Android · iOS · Windows</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+            <span style="color:var(--muted)">Status</span>
+            <span style="color:var(--accent3);display:flex;align-items:center;gap:5px">
+              <span style="width:6px;height:6px;border-radius:50%;background:var(--accent3);display:inline-block;animation:pulse 2s infinite"></span>
+              Open to work
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built with care by <span>Vivek Murali</span> · Senior Flutter Developer · India</p>
+  <p style="margin-top:0.4rem;font-size:0.75rem;">Designed for impact. Engineered for scale.</p>
+</footer>
+
+<script>
+  // Cursor glow
+  const glow = document.getElementById('cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // Canvas particle bg
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.size = Math.random() * 1.5 + 0.3;
+      this.alpha = Math.random() * 0.4 + 0.05;
+      this.color = Math.random() > 0.5 ? '0,229,255' : '124,58,237';
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color},${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0,229,255,${0.06 * (1 - dist/120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawConnections();
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Scroll reveal - add hidden class first via JS so non-JS users always see content
+  const reveals = document.querySelectorAll('.reveal, .timeline-item');
+  reveals.forEach(el => {
+    if (el.getBoundingClientRect().top > window.innerHeight) {
+      el.classList.add('hidden');
+    }
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.remove('hidden');
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav hamburger
+  function toggleNav() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+  });
+</script>
+</body>
+</html>
